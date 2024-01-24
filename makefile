@@ -6,7 +6,7 @@ CFLAGS = -Wall -g
 LOOP_SOURCES = advancedClassificationLoop.o basicClassification.o
 RECURSIVE_SOURCE = advancedClassificationRecursion.o basicClassification.o
 
-all: libclassloops.a libclassrec.a libclassloops.so libclassrec.so mains maindloop maindrec
+all: recursives recursived loops loopd mains maindloop maindrec
 maindloop: main.o libclassloops.so
 	$(CC) $(CFLAGS) -o maindloop main.o libclassloops.so
 maindrec: main.o libclassrec.so
@@ -17,16 +17,15 @@ mains: main.o libclassrec.a
 main.o: main.c NumClass.h
 	$(CC) $(CFLAGS) -c main.c
 
-libclassloops.a: $(LOOP_SOURCES)
+loops: $(LOOP_SOURCES)
 	ar -rcs libclassloops.a $(LOOP_SOURCES)
 
-libclassrec.a : $(RECURSIVE_SOURCE)
+recursives : $(RECURSIVE_SOURCE)
 	ar -rcs libclassrec.a $(RECURSIVE_SOURCE)
-
-libclassrec.so: $(RECURSIVE_SOURCE)
+recursived: $(RECURSIVE_SOURCE)
 	$(CC) -shared -o libclassrec.so $(RECURSIVE_SOURCE)
 
-libclassloops.so: $(LOOP_SOURCES)
+loopd: $(LOOP_SOURCES)
 	$(CC) -shared -o libclassloops.so $(LOOP_SOURCES)
 
 basicClassification.o: basicClassification.c NumClass.h
